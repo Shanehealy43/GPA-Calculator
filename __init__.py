@@ -35,9 +35,9 @@ def create_app(test_config=None):
 
     # apply the blueprints to the app
     # tell the app that the routes are in multiple files
-    from app import auth, data
+    from app import auth, calculator
     app.register_blueprint(auth.bp)
-    app.register_blueprint(data.bp)
+    app.register_blueprint(calculator.bp)
 
     # load the index from blog as the main route page
     # since that rule isn't defined here, need to make the app aware of it

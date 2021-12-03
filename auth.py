@@ -41,13 +41,13 @@ def load_logged_in_user():
 def register():
     """Register a new user.
 
-    Validates that the username is not already taken. Hashes the
+    Validates that the email is not already taken. Hashes the
     password for security.
     """
     if request.method == "POST":
         firstname = request.form["firstname"]
         lastname = request.form["lastname"]
-        email = request.form["email"] # like request.form.get("username")
+        email = request.form["email"] # like request.form.get("email")
         password = request.form["password"]
         db = get_db()
         error = None
@@ -66,7 +66,7 @@ def register():
                     (firstname, lastname, email, generate_password_hash(password)))
                 db.commit()
             except db.IntegrityError:
-                # The username was already taken, which caused the
+                # The email was already taken, which caused the
                 # commit to fail. Show a validation error.
                 error = f"Email {email} is already registered."
             else:
@@ -86,10 +86,10 @@ def login():
         password = request.form["password"]
         db = get_db()
         error = None
-        user = db.execute("SELECT * FROM user WHERE username = ?", (username,)).fetchone()
+        user = db.execute("SELECT * FROM user WHERE email = ?", (email,)).fetchone()
 
         if user is None:
-            error = "Incorrect username."
+            error = "This email does not match an account."
         elif not check_password_hash(user["password"], password):
             error = "Incorrect password."
 
@@ -97,7 +97,7 @@ def login():
             # store the user id in a new session and return to the index
             session.clear()
             session["user_id"] = user["id"]
-            return redirect(url_for("blog.index"))
+            return redirect(url_for("calculator.index"))
 
         flash(error)
 
@@ -108,4 +108,4 @@ def login():
 def logout():
     """Clear the current session, including the stored user id."""
     session.clear()
-    return redirect(url_for("blog.index"))
+    return redirect(url_for("calculator.index"))
