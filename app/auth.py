@@ -80,6 +80,7 @@ def register():
 
 @bp.route("/login", methods=("GET", "POST"))
 def login():
+
     """Log in a registered user by adding the user id to the session."""
     if request.method == "POST":
         email = request.form["email"]
@@ -108,4 +109,7 @@ def login():
 def logout():
     """Clear the current session, including the stored user id."""
     session.clear()
-    return redirect(url_for("calculator.index"))
+    return redirect(url_for("auth.login")) #shouldn't it be back to the login page?
+@bp.route("/")
+def index():
+    return redirect(url_for("auth.login"))
