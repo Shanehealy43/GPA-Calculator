@@ -8,9 +8,11 @@ from app.db import get_db
 
 bp = Blueprint("calculator", __name__)
 
-# @bp.route("/main")
-# def index():
-# 	db = get_db()
-#     query = """SELECT post.id, title, body, created, author_id, username
-#             FROM post JOIN user ON post.author_id = user.id
-#             ORDER BY created DESC"""
+@bp.route("/main")
+def main(): # maybe index is name
+	db = get_db()
+    query = """SELECT firstname, lastname, gpa
+            FROM gpa JOIN user ON gpa.user_id = user.id
+            ORDER BY created DESC"""
+    posts = db.execute(query).fetchall()
+    return render_template("calculator/index.html", posts=posts)

@@ -17,16 +17,17 @@ CREATE TABLE class
   classtype TEXT NOT NULL,
   length TEXT NOT NULL,
   user_id INTEGER NOT NULL,
+  grade TEXT NOT NULL,
 
   -- created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
   FOREIGN KEY (user_id) REFERENCES user (id)
+
 );
 
 CREATE TABLE gpa (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
+user_id INTEGER NOT NULL,
 gpa REAL NOT NULL,
-class_id INTEGER NOT NULL,
 
-FOREIGN KEY (class_id) REFERENCES class (id)
+FOREIGN KEY (user_id) REFERENCES user (id)
 )
