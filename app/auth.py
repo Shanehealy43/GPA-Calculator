@@ -10,6 +10,8 @@ from app.db import get_db
 # every auth route has the prefix below
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
+def index():
+    return redirect(url_for("auth.login"))
 
 def login_required(view):
     """View decorator that redirects anonymous users to the login page."""
@@ -98,7 +100,7 @@ def login():
             # store the user id in a new session and return to the index
             session.clear()
             session["user_id"] = user["id"]
-            return redirect(url_for("calculator.index"))
+            return redirect(url_for("calculator.main"))
 
         flash(error)
 
@@ -110,6 +112,5 @@ def logout():
     """Clear the current session, including the stored user id."""
     session.clear()
     return redirect(url_for("auth.login")) #shouldn't it be back to the login page?
-@bp.route("/")
-def index():
-    return redirect(url_for("auth.login"))
+# @bp.route("/")
+
