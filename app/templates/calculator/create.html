@@ -1,9 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-</head>
-<body>
-	<h1>This will be the create page</h1>
-</body>
+{% extends 'base.html' %}
 
-</html>
+{% block header %}
+  <h1>{% block title %}Classes{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+  	<label for="classname">Class Name</label>
+    <input name="classname" id="classname" required>
+    <label for="classtype">Class Type</label>
+    <input name="classtype" id="classtype" required>
+    <label for="length">Length</label>
+    <input name="length" id="length" required>
+    <label for="grade">Grade</label>
+    <input name="grade" id="grade" required>
+  </form>
+{% endblock %}
