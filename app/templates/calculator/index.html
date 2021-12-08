@@ -9,14 +9,16 @@
 {% endblock %}
 
 {% block content %}
-  {% for class in posts %}
-    <article class="class">
-      <header>
-        <div>
-          <h1>Hello {{ class['firstname'] }} {{ class['lastname'] }} </h1>
-        </div>
-      </header>
-    </article>
+  {% for class in posts %}<!-- or here -->
+    {% if g.user %} <!--something here needs to change... seeing names from more than just logged in account -->
+      <article class="class">
+        <header>
+         <div>
+           <h1>Hello {{ class['firstname'] }} {{ class['lastname'] }} </h1>
+         </div>
+        </header>
+      </article>
+    {% endif %}
     {% if not loop.last %}
       <hr>
     {% endif %}
