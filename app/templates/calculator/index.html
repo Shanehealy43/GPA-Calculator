@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-  {% for class in posts %}<!-- or here -->
+  <!-- {% for class in posts %} --><!-- or here -->
     {% if g.user %} <!--something here needs to change... seeing names from more than just logged in account -->
       <article class="class">
         <header>
@@ -22,5 +22,5 @@
     {% if not loop.last %}
       <hr>
     {% endif %}
-  {% endfor %}
+ <!--  {% endfor %} -->
 {% endblock %} 
