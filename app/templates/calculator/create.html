@@ -5,25 +5,43 @@
 {% endblock %}
 
 {% block content %}
-<!--add list of previous classes added in table so user knows what classes they've submitted so far -->
   <form method="post">
   	<label for="classname">Class Name</label>
     <input name="classname" id="classname" required>
     <label for="classtype">Class Type</label>
-    <input name="classtype" id="classtype" required>
-    <label for="length">Length</label>
-    <input name="length" id="length" required>
+    <select name="classtype" id="classtype" required>
+      <option value="regular">Regular</option>
+      <option value="honors">Honors</option>
+      <option value="ap">AP</option>
+    </select>
+    <!-- <input name="classtype" id="classtype" required> -->
+    <label for="length">Length</label> <!-- might just change this to semester so I can say 1, 2 -->
+    <select name="length" id="length" required>
+      <option value="1-semester">1 semester</option>
+      <option value="2-semester">2 semester</option>
+    </select>
     <label for="grade">Grade</label>
-    <input name="grade" id="grade" required>
+    <select name="grade" id="grade" required>
+      <option value="a">A</option>
+      <option value="a-">A-</option>
+      <option value="b+">B+</option>
+      <option value="b">B</option>
+      <option value="b-">B-</option>
+      <option value="c+">C+</option>
+      <option value="c">C</option>
+      <option value="c-">C-</option>
+      <option value="d+">D+</option>
+      <option value="d">D</option>
+      <option value="d-">D-</option>
+      <option value="f">F</option>
+    </select>
     <input type="submit" value = "Save and Add Another Class">
-    <!-- use the submit/save line to post type = submit -->
   </form>
   <div>
     <a id = "exit" href = "{{ url_for('calculator.main') }}">Exit</a>
   </div>
-
   {% for each in classes %}
-  <p> Id = {{each["id"]}}, Classname = {{each["classname"]}}, Classtype = {{each["classtype"]}}, Length = {{each["length"]}}, Grade = {{each["grade"]}}, UserId = {{each["user_id"]}}</p>
+    <p>Class {{each["id"]}}: {{each["classname"]}}, {{each["classtype"]}}, {{each["length"]}}, {{each["grade"]}}</p>
   {% endfor %}
   <!-- <div>
     <a class="action" href="{{ url_for('calculator.main') }}">Save</a> 

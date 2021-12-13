@@ -15,7 +15,7 @@ CREATE TABLE class
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   classname TEXT NOT NULL,
   classtype TEXT NOT NULL,
-  length TEXT NOT NULL,
+  length INTEGER NOT NULL,
   user_id INTEGER NOT NULL,
   grade TEXT NOT NULL,
   -- gpa_id REAL NOT NULL, # idk about this
