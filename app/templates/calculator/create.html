@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+<!--add list of previous classes added in table so user knows what classes they've submitted so far -->
   <form method="post">
   	<label for="classname">Class Name</label>
     <input name="classname" id="classname" required>
@@ -14,11 +15,17 @@
     <input name="length" id="length" required>
     <label for="grade">Grade</label>
     <input name="grade" id="grade" required>
+    <input type="submit" value = "Save and Add Another Class">
+    <!-- use the submit/save line to post type = submit -->
   </form>
   <div>
-    <button type="button" id = "add">Add Another Class</button>
+    <a id = "exit" href = "{{ url_for('calculator.main') }}">Exit</a>
   </div>
-  <div>
-    <a class="action" href="{{ url_for('calculator.main') }}">Save</a>
-  </div>
+
+  {% for each in classes %}
+  <p> Id = {{each["id"]}}, Classname = {{each["classname"]}}, Classtype = {{each["classtype"]}}, Length = {{each["length"]}}, Grade = {{each["grade"]}}, UserId = {{each["user_id"]}}</p>
+  {% endfor %}
+  <!-- <div>
+    <a class="action" href="{{ url_for('calculator.main') }}">Save</a> 
+  </div> -->
 {% endblock %}
