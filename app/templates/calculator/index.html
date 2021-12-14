@@ -5,6 +5,7 @@
   <h1>{% block title %}Your GPAs{% endblock %}</h1>
   {% if g.user %}
     <a class="action" href="{{ url_for('calculator.create') }}">Create</a>
+    <a class="action" href="{{ url_for('calculator.delete') }}">Delete</a>
   {% endif %}
 {% endblock %}
 

@@ -61,6 +61,29 @@ def create():
 	query1 = """SELECT * FROM class where user_id = ?"""
 	classes = db.execute(query1, (g.user["id"],)).fetchall()
 	return render_template("calculator/create.html", classes=classes)
+
+@bp.route("/delete", methods=("GET", "POST"))
+def delete(): #if get
+	if request.method == "GET":
+		db = get_db()
+		query = """SELECT * FROM class where user_id = ?"""
+		classes = db.execute(query, (g.user["id"],)).fetchall()
+		return render_template("calculator/delete.html", classes=classes) #classes=classes
+	else:
+		list1 =list(request.form.keys())
+		id1 = list1[0]
+		db = get_db()
+		db.execute("DELETE FROM class WHERE id = ?", (id1,))
+		db.commit()
+		return redirect(url_for("calculator.delete"))
+		# query = """DELETE FROM class where id = ?"""
+		# classes = db.execute(query, (id1,)).fetchall()
+		# return render_template("calculator/delete.html")
+#request.form see which ids are in request.form.keys() 
+#if post
+	# db = get_db() #I WANNA ADD THIS BUT IDT IT'S RIGHT
+	# query = """DELETE * FROM class where id = ?"""
+	# classes = db.execute(query, (RIGHT HERE,)).fetchall()
 	# db = get_db()
 	# return render_template("calculator/create.html")
 
