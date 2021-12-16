@@ -8,7 +8,7 @@
   <form method="post">
   {% for each in classes %}
     
-      <p>Class {{each["id"]}}: {{each["classname"]}}, {{each["classtype"]}}, {{each["length"]}}, {{each["grade"]}} <input type = "submit" name = "{{each['id']}}" value = "Delete"></p>
+      <p>Class {{each["id"]}}: {{each["classname"]}}, {{each["classtype"]}}, {{each["length"]}}, {{each["grade"]}} <input type = "submit" name = "{{each['id']}}" value = "Delete"></p> <!--get the classes, put a delete button beside each one of them -->
   {% endfor %}
   </form>
   <div class="tools">
