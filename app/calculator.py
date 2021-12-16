@@ -14,16 +14,57 @@ def main():
 	db = get_db()
 	# print(g.user["id"])
 	gpa = session.get("gpa")
-	if gpa is None:
-		query = """SELECT firstname, lastname FROM user WHERE id = ?""" #where id = g.user -- look at flask minibloig
-		posts = db.execute(query, (g.user["id"],)).fetchall()
-	# else:
+	query = """SELECT firstname, lastname FROM user WHERE id = ?""" #where id = g.user -- look at flask minibloig
+	posts = db.execute(query, (g.user["id"],)).fetchall()
+
+	db = get_db()
+	query1 = """SELECT * FROM class where user_id = ?"""
+	classes = db.execute(query1, (g.user["id"],)).fetchall()
+	x = 0
+	sum1 = 0
+	worthsum = 0
+	for each in classes:
+	    x += 1
+	if x == 0:
+	    gpa = None
+	else:
+	    for each in classes:
+	    	if each["length"] == "1-semester":
+	    		length1 = 1
+	    	else:
+	    		length1 = 2
+	    	worthsum += each["worth"]
+	    	sum1 += length1
+	print(sum1)
+	print(worthsum)
+	if sum1 > 0:
+		gpa = worthsum / sum1
+	else:
+		gpa = None
+	print(gpa)
+	if gpa != None:
+		db = get_db()
+		query = "INSERT INTO gpa (gpa, user_id) VALUES (?, ?)"
+		db.execute(query, (gpa, g.user["id"]))
+		db.commit()
+
+	#     # sum = 0
+	    # for each in classes:
+	    # 	if each["length"] == 
+	    # return redirect(url_for("calculator.create"))
+
+		# if length == "1-semester":
+		# 	length1 = 4
+		# else:
+		#	length1 = 8
+		#gpa = for each in classes: (worth) added up/ each(length1) added up
+		#else:
 	# 	query = """SELECT firstname, lastname, gpa FROM user WHERE user_id = ?""" #new additions here and lines above
 	# 	posts = db.execute(query, (id)).fetchall()
 
 
 	# query = """SELECT firstname, lastname FROM user""" #gpa FROM gpa JOIN user ON gpa.user_id = user.id ORDER BY created DESC
-	return render_template("calculator/index.html", posts=posts) #, posts=posts (inside parentheses)
+	return render_template("calculator/index.html", posts=posts, gpa=gpa) #, posts=posts (inside parentheses)
 @bp.route("/create", methods=("GET", "POST"))
 def create():
 	if request.method == "POST":
@@ -31,8 +72,11 @@ def create():
 	    classtype = request.form["classtype"]
 	    length = request.form["length"]
 	    grade = request.form["grade"]
-	    error = None
+	    # worth = session.get("worth") #maybe??
+	    # gpa = request.form["gpa"]
+	    
 
+	    error = None
 	    if not grade:
 	    	error = "Grade is required."
 	    if not length:
@@ -45,17 +89,47 @@ def create():
 	    if error is not None:
 	        flash(error)
 	    else:
-	        db = get_db()
-	        # title and body come from form, author_id comes from user which was done on request already in auth
-	        # could also get session.get(user_id) but that's not guaranteed to exist
-	        query = "INSERT INTO class (classname, classtype, length, grade, user_id) VALUES (?, ?, ?, ?, ?)"
-	        db.execute(query, (classname, classtype, length, grade, g.user["id"]))
-	        db.commit()
+	    	if grade == "A":
+	    		worth = 4
+	    	elif grade == "A-":
+	    		worth = 3.66
+	    	elif grade == "B+":
+	    		worth = 3.33
+	    	elif grade == "B":
+	    		worth = 3
+	    	elif grade == "B-":
+	    		worth = 2.66
+	    	elif grade == "C+":
+	    		worth = 2.33
+	    	elif grade == "C":
+	    		worth = 2
+	    	elif grade == "C-":
+	    		worth = 1.66
+	    	elif grade == "D+":
+	    		worth = 1.33
+	    	elif grade == "D":
+	    		worth = 1
+	    	elif grade == "D-":
+	    		worth = .66
+	    	else:
+	    		worth = 0
+	    	if classtype == "Honors":
+	    		worth += .5
+	    	elif classtype == "AP":
+	    		worth += 1
+	    	if length == "2-semester":
+	    		worth *= 2
+	    	print(worth)
 
-	        db = get_db()
-	        query1 = """SELECT * FROM class where user_id = ?"""
-	        classes = db.execute(query1, (g.user["id"],)).fetchall()
-	        return redirect(url_for("calculator.create"))
+	    	db = get_db()
+	    	query = "INSERT INTO class (classname, classtype, length, grade, user_id, worth) VALUES (?, ?, ?, ?, ?, ?)"
+	    	db.execute(query, (classname, classtype, length, grade, g.user["id"], worth))
+	    	db.commit()
+
+	    	db = get_db()
+	    	query1 = """SELECT * FROM class where user_id = ?"""
+	    	classes = db.execute(query1, (g.user["id"],)).fetchall()
+	    	return redirect(url_for("calculator.create"))
 
 	db = get_db()
 	query1 = """SELECT * FROM class where user_id = ?"""
@@ -76,6 +150,7 @@ def delete(): #if get
 		db.execute("DELETE FROM class WHERE id = ?", (id1,))
 		db.commit()
 		return redirect(url_for("calculator.delete"))
+
 		# query = """DELETE FROM class where id = ?"""
 		# classes = db.execute(query, (id1,)).fetchall()
 		# return render_template("calculator/delete.html")

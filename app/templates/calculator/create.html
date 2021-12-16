@@ -6,43 +6,57 @@
 
 {% block content %}
   <form method="post">
-  	<label for="classname">Class Name</label>
-    <input name="classname" id="classname" required>
-    <label for="classtype">Class Type</label>
-    <select name="classtype" id="classtype" required>
-      <option value="Regular">Regular</option>
-      <option value="Honors">Honors</option>
-      <option value="AP">AP</option>
-    </select>
+    <div>
+    	<label for="classname">Class Name</label>
+      <input name="classname" id="classname" required>
+    </div>
+    <div>
+      <label for="classtype">Class Type</label>
+      <select name="classtype" id="classtype" required>
+        <option value="Regular">Regular</option>
+        <option value="Honors">Honors</option>
+        <option value="AP">AP</option>
+      </select>
+    </div>
     <!-- <input name="classtype" id="classtype" required> -->
-    <label for="length">Length</label> <!-- might just change this to semester so I can say 1, 2 -->
-    <select name="length" id="length" required>
-      <option value="1-semester">1 semester</option>
-      <option value="2-semester">2 semester</option>
-    </select>
-    <label for="grade">Grade</label>
-    <select name="grade" id="grade" required>
-      <option value="A">A</option>
-      <option value="A-">A-</option>
-      <option value="B+">B+</option>
-      <option value="B">B</option>
-      <option value="B-">B-</option>
-      <option value="C+">C+</option>
-      <option value="C">C</option>
-      <option value="C-">C-</option>
-      <option value="D+">D+</option>
-      <option value="D">D</option>
-      <option value="D-">D-</option>
-      <option value="F">F</option>
-    </select>
-    <input type="submit" value = "Save and Add Another Class">
+    <div>
+      <label for="length">Length</label>
+      <select name="length" id="length" required>
+        <option value="1-semester">1 semester</option>
+        <option value="2-semester">2 semester</option>
+      </select>
+    </div>
+    <div>
+      <label for="grade">Grade</label>
+      <select name="grade" id="grade" required>
+        <option value="A">A</option>
+        <option value="A-">A-</option>
+        <option value="B+">B+</option>
+        <option value="B">B</option>
+        <option value="B-">B-</option>
+        <option value="C+">C+</option>
+        <option value="C">C</option>
+        <option value="C-">C-</option>
+        <option value="D+">D+</option>
+        <option value="D">D</option>
+        <option value="D-">D-</option>
+        <option value="F">F</option>
+      </select>
+    </div>
+    <div>
+      <input type="submit" value = "Save and Add Another Class">
+    </div>
   </form>
   <div>
-    <a id = "exit" href = "{{ url_for('calculator.main') }}">Exit</a>
+    <div class="tools">
+      <a id = "exit" href = "{{ url_for('calculator.main') }}">Exit</a>
+    </div>
   </div>
   <!-- another form below with method = post-->
   {% for each in classes %}
-    <p>Class {{each["id"]}}: {{each["classname"]}}, {{each["classtype"]}}, {{each["length"]}}, {{each["grade"]}}<!-- <input type = "checkbox" id = "check" > --></p>
+    <p>Class {{each["id"]}}: {{each["classname"]}}, {{each["classtype"]}}, {{each["length"]}}, {{each["grade"]}}, Value: {{each["worth"]}}</p>
+
+    
   {% endfor %}
   <!-- <div>
     <a class="action" href="{{ url_for('calculator.main') }}">Save</a> 

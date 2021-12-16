@@ -2,23 +2,34 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Your GPAs{% endblock %}</h1>
   {% if g.user %}
-    <a class="action" href="{{ url_for('calculator.create') }}">Create</a>
-    <a class="action" href="{{ url_for('calculator.delete') }}">Delete</a>
   {% endif %}
 {% endblock %}
 
 {% block content %}
   <!-- {% for class in posts %} --><!-- or here -->
     {% if g.user %} <!--something here needs to change... seeing names from more than just logged in account -->
-      <article class="class">
+      <div id = "top">
+        <h1>{% block title %}Your GPA{% endblock %}</h1>
+        <article class="class">
+          <header>
+            <div>
+             <h1 id = "hello">Hello {{ class['firstname'] }} {{ class['lastname'] }} </h1>
+            </div>
+          </header>
+        </article>
+      </div>
+      <article class ="gpa">
         <header>
-         <div>
-           <h1>Hello {{ class['firstname'] }} {{ class['lastname'] }} </h1>
-         </div>
+          <div>
+            <h1 id = "gpa">{{ gpa }}</h1>
+          </div>
         </header>
       </article>
+      <div class = "tools">
+        <a class="action" href="{{ url_for('calculator.create') }}">Create</a>
+        <a class="action" href="{{ url_for('calculator.delete') }}">Delete</a>
+      </div>
     {% endif %}
     {% if not loop.last %}
       <hr>

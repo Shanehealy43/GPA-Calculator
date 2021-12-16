@@ -5,15 +5,14 @@
 {% endblock %}
 
 {% block content %}
-  <a id = "exit" href = "{{ url_for('calculator.main') }}">Exit</a>
-  <!-- another form below with method = post-->
   <form method="post">
   {% for each in classes %}
     
       <p>Class {{each["id"]}}: {{each["classname"]}}, {{each["classtype"]}}, {{each["length"]}}, {{each["grade"]}} <input type = "submit" name = "{{each['id']}}" value = "Delete"></p>
   {% endfor %}
   </form>
-  <!-- <div>
-    <a class="action" href="{{ url_for('calculator.main') }}">Save</a> 
-  </div> -->
+  <div class="tools">
+    <a id = "exit" href = "{{ url_for('calculator.main') }}">Exit</a>
+  </div>
+
 {% endblock %}
