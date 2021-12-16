@@ -12,7 +12,6 @@ bp = Blueprint("calculator", __name__)
 @login_required
 def main():
 	db = get_db()
-	# print(g.user["id"])
 	gpa = session.get("gpa")
 	query = """SELECT firstname, lastname FROM user WHERE id = ?""" #where id = g.user -- look at flask minibloig
 	posts = db.execute(query, (g.user["id"],)).fetchall()
@@ -35,33 +34,17 @@ def main():
 	    		length1 = 2
 	    	worthsum += each["worth"]
 	    	sum1 += length1
-	print(sum1)
-	print(worthsum)
+
 	if sum1 > 0:
 		gpa = worthsum / sum1
+		gpa = round(gpa, 2)
 	else:
 		gpa = None
-	print(gpa)
 	if gpa != None:
 		db = get_db()
 		query = "INSERT INTO gpa (gpa, user_id) VALUES (?, ?)"
 		db.execute(query, (gpa, g.user["id"]))
 		db.commit()
-
-	#     # sum = 0
-	    # for each in classes:
-	    # 	if each["length"] == 
-	    # return redirect(url_for("calculator.create"))
-
-		# if length == "1-semester":
-		# 	length1 = 4
-		# else:
-		#	length1 = 8
-		#gpa = for each in classes: (worth) added up/ each(length1) added up
-		#else:
-	# 	query = """SELECT firstname, lastname, gpa FROM user WHERE user_id = ?""" #new additions here and lines above
-	# 	posts = db.execute(query, (id)).fetchall()
-
 
 	# query = """SELECT firstname, lastname FROM user""" #gpa FROM gpa JOIN user ON gpa.user_id = user.id ORDER BY created DESC
 	return render_template("calculator/index.html", posts=posts, gpa=gpa) #, posts=posts (inside parentheses)
@@ -72,9 +55,6 @@ def create():
 	    classtype = request.form["classtype"]
 	    length = request.form["length"]
 	    grade = request.form["grade"]
-	    # worth = session.get("worth") #maybe??
-	    # gpa = request.form["gpa"]
-	    
 
 	    error = None
 	    if not grade:
@@ -118,12 +98,16 @@ def create():
 	    	elif classtype == "AP":
 	    		worth += 1
 	    	if length == "2-semester":
+	    		realworth = worth
 	    		worth *= 2
+	    	else:
+	    		realworth = worth
 	    	print(worth)
+	    	print(realworth)
 
 	    	db = get_db()
-	    	query = "INSERT INTO class (classname, classtype, length, grade, user_id, worth) VALUES (?, ?, ?, ?, ?, ?)"
-	    	db.execute(query, (classname, classtype, length, grade, g.user["id"], worth))
+	    	query = "INSERT INTO class (classname, classtype, length, grade, user_id, worth, realworth) VALUES (?, ?, ?, ?, ?, ?, ?)"
+	    	db.execute(query, (classname, classtype, length, grade, g.user["id"], worth, realworth))
 	    	db.commit()
 
 	    	db = get_db()

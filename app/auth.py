@@ -10,6 +10,7 @@ from app.db import get_db
 # every auth route has the prefix below
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
+# @bp.route("/")
 def index():
     return redirect(url_for("auth.login"))
 

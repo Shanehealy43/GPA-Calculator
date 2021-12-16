@@ -22,8 +22,8 @@
     <div>
       <label for="length">Length</label>
       <select name="length" id="length" required>
+        <option value="2-semester">2 semesters</option>
         <option value="1-semester">1 semester</option>
-        <option value="2-semester">2 semester</option>
       </select>
     </div>
     <div>
@@ -54,7 +54,7 @@
   </div>
   <!-- another form below with method = post-->
   {% for each in classes %}
-    <p>Class {{each["id"]}}: {{each["classname"]}}, {{each["classtype"]}}, {{each["length"]}}, {{each["grade"]}}, Value: {{each["worth"]}}</p>
+    <p>Class {{each["id"]}}: {{each["classname"]}}, {{each["classtype"]}}, {{each["length"]}}, {{each["grade"]}}, Value: {{each["realworth"]}}</p>
 
     
   {% endfor %}

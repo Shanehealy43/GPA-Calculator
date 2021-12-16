@@ -20,6 +20,7 @@ CREATE TABLE class
   user_id INTEGER NOT NULL,
   grade TEXT NOT NULL,
   worth REAL NOT NULL,
+  realworth REAL NOT NULL,
   -- gpa_id REAL NOT NULL, # idk about this
 
   -- created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
