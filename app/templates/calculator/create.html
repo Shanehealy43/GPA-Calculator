@@ -18,7 +18,7 @@
         <option value="AP">AP</option>
       </select>
     </div>
-    <!-- <input name="classtype" id="classtype" required> -->
+
     <div>
       <label for="length">Length</label>
       <select name="length" id="length" required>
@@ -52,13 +52,9 @@
       <a id = "exit" href = "{{ url_for('calculator.main') }}">Exit</a>
     </div>
   </div>
-  <!-- another form below with method = post-->
   {% for each in classes %}
     <p>Class {{each["id"]}}: {{each["classname"]}}, {{each["classtype"]}}, {{each["length"]}}, {{each["grade"]}}, Value: {{each["realworth"]}}</p>
 
     
   {% endfor %}
-  <!-- <div>
-    <a class="action" href="{{ url_for('calculator.main') }}">Save</a> 
-  </div> -->
 {% endblock %}

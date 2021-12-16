@@ -1,4 +1,4 @@
-import functools
+import functools#RESOURCES USED: W3 Schools, Mx. Hansberry
 #
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for)
@@ -8,9 +8,9 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from app.db import get_db
 
 # every auth route has the prefix below
-bp = Blueprint("auth", __name__, url_prefix="/auth")
+bp = Blueprint("auth", __name__, url_prefix="/")
 
-# @bp.route("/")
+@bp.route("/") #main route - sends user to login
 def index():
     return redirect(url_for("auth.login"))
 
@@ -47,14 +47,14 @@ def register():
     Validates that the email is not already taken. Hashes the
     password for security.
     """
-    if request.method == "POST":
-        firstname = request.form["firstname"]
+    if request.method == "POST": #posting it when submitted
+        firstname = request.form["firstname"] #need all the following four inputs from the user
         lastname = request.form["lastname"]
-        email = request.form["email"] # like request.form.get("email")
+        email = request.form["email"]
         password = request.form["password"]
         db = get_db()
         error = None
-        if not firstname:
+        if not firstname: #need all the inputs or else error will pop up
             error = "First Name is required."
         elif not lastname:
             error = "Last Name is required."
@@ -65,8 +65,8 @@ def register():
 
         if error is None:
             try:
-                db.execute("INSERT INTO user (firstname, lastname, email, password) VALUES (?, ?, ?, ?)",
-                    (firstname, lastname, email, generate_password_hash(password)))
+                db.execute("INSERT INTO user (firstname, lastname, email, password) VALUES (?, ?, ?, ?)", #insert the user inputs into table.
+                    (firstname, lastname, email, generate_password_hash(password))) #encrypt password
                 db.commit()
             except db.IntegrityError:
                 # The email was already taken, which caused the
@@ -85,27 +85,27 @@ def register():
 def login():
 
     """Log in a registered user by adding the user id to the session."""
-    if request.method == "POST":
+    if request.method == "POST": #when submit button is pressed
         email = request.form["email"]
         password = request.form["password"]
         db = get_db()
         error = None
-        user = db.execute("SELECT * FROM user WHERE email = ?", (email,)).fetchone()
+        user = db.execute("SELECT * FROM user WHERE email = ?", (email,)).fetchone() #make sure credentials match
 
-        if user is None:
-            error = "This email does not match an account."
-        elif not check_password_hash(user["password"], password):
+        if user is None: #if no users were matched to credentials inputted
+            error = "This email does not match an account." 
+        elif not check_password_hash(user["password"], password): #if passcode incorrect
             error = "Incorrect password."
 
         if error is None:
             # store the user id in a new session and return to the index
             session.clear()
             session["user_id"] = user["id"]
-            return redirect(url_for("calculator.main", id=user['id'])) #Change here - added user id
+            return redirect(url_for("calculator.main", id=user['id'])) #if there's no errors, then send the user to THEIR home page,
 
         flash(error)
 
-    return render_template("auth/login.html")
+    return render_template("auth/login.html") #generate output from credentials given
 
 
 @bp.route("/logout")

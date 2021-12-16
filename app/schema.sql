@@ -21,20 +21,14 @@ CREATE TABLE class
   grade TEXT NOT NULL,
   worth REAL NOT NULL,
   realworth REAL NOT NULL,
-  -- gpa_id REAL NOT NULL, # idk about this
-
-  -- created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
   FOREIGN KEY (user_id) REFERENCES user (id)
-  -- FOREIGN KEY (gpa_id) REFERENCES gpa (id) --idk about this
-
 );
 
 CREATE TABLE gpa (
-  id INTEGER PRIMARY KEY AUTOINCREMENT, --idk about this
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER NOT NULL,
   gpa REAL NOT NULL,
--- id INTEGER PRIMARY KEY AUTOINCREMENT,
 
 FOREIGN KEY (user_id) REFERENCES user (id)
 )

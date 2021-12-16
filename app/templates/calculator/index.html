@@ -7,8 +7,7 @@
 {% endblock %}
 
 {% block content %}
-  <!-- {% for class in posts %} --><!-- or here -->
-    {% if g.user %} <!--something here needs to change... seeing names from more than just logged in account -->
+    {% if g.user %}
       <div id = "top">
         <h1>{% block title %}Your GPA{% endblock %}</h1>
         <article class="class">
@@ -34,5 +33,4 @@
     {% if not loop.last %}
       <hr>
     {% endif %}
- <!--  {% endfor %} -->
 {% endblock %} 
